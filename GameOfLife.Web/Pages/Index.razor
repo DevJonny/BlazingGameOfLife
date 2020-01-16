@@ -1,0 +1,28 @@
+﻿@page "/"
+@using GameOfLife
+
+<table class="table">
+        <tbody>
+            @for (var x = 0; x < _gameOfLife.World.GetLength(0); x++)
+            {
+                <tr>
+                @for (var y = 0; y < _gameOfLife.World.GetLength(1); y++)
+                {
+                    <td>@_gameOfLife.World[x, y]</td>    
+                }
+                </tr>
+            }            
+        </tbody>
+    </table>
+
+@code
+{
+    private GameOfLife _gameOfLife;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        _gameOfLife = new GameOfLife(10);
+
+        await base.OnInitializedAsync();
+    }
+}
