@@ -1,4 +1,6 @@
-﻿namespace GameOfLife
+﻿using System;
+
+namespace GameOfLife
 {
     public class GameOfLife
     {
@@ -12,6 +14,15 @@
             World = new bool[size, size];
             _size = size;
             _newWorld = World;
+        }
+
+        public void RandomSeed(int percentOfAlive = 25)
+        {
+            var random = new Random();
+            
+            for (var x = 0; x < _size; x++)
+                for (var y = 0; y < _size; y++)
+                    World[x, y] = random.Next(100) <= 25;
         }
 
         public void Seed(bool[,] entries)

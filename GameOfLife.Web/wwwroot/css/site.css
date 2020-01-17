@@ -181,3 +181,19 @@ app {
         display: block;
     }
 }
+
+
+
+.world {
+    margin-top: 10px;
+}
+
+.column {
+    min-width: 20px;
+    min-height: 20px;
+    outline: solid 1px;
+}
+
+.alive {
+    background-color: black;
+}

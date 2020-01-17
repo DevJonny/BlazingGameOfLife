@@ -1,28 +1,68 @@
 ﻿@page "/"
 @using GameOfLife
 
-<table class="table">
-        <tbody>
-            @for (var x = 0; x < _gameOfLife.World.GetLength(0); x++)
-            {
-                <tr>
-                @for (var y = 0; y < _gameOfLife.World.GetLength(1); y++)
-                {
-                    <td>@_gameOfLife.World[x, y]</td>    
-                }
-                </tr>
-            }            
-        </tbody>
-    </table>
+<div class="btn-group" role="group">
+    <button class="btn btn-primary" @onclick="StartWorld">Start</button>
+    <button class="btn btn-primary" @onclick="StopWorld">Stop</button>
+    <button class="btn btn-primary" @onclick="Tick">Generate Next Generation</button>
+</div>
+
+
+<div id="world">
+    @for (var x = 0; x < GameOfLife.World.GetLength(0); x++)
+    {
+        <div class="row">
+        @for (var y = 0; y < GameOfLife.World.GetLength(1); y++)
+        {
+            <div class="column @State(x,y)"></div>    
+        }
+        </div>
+    }            
+</div>
 
 @code
 {
-    private GameOfLife _gameOfLife;
+    private GameOfLife GameOfLife;
+    private bool Stop;
     
     protected override async Task OnInitializedAsync()
     {
-        _gameOfLife = new GameOfLife(10);
+        GameOfLife = new GameOfLife(25);
+        GameOfLife.RandomSeed(10);
 
         await base.OnInitializedAsync();
+    }
+
+    private void Tick()
+    {
+        GameOfLife.Tick();
+    }
+
+    private void StartWorld()
+    {
+        Task.Run(
+            async () =>
+            {
+                Stop = false;
+                while (!Stop)
+                {
+                    await Task.Delay(250);
+            
+                    GameOfLife.Tick();
+                    StateHasChanged();
+                    System.Console.WriteLine("Ticking for a new generation...");
+                }
+            });
+        
+    }
+
+    private void StopWorld()
+    {
+        Stop = true;
+    }
+
+    private string State(int x, int y)
+    {
+        return GameOfLife.World[x, y] ? "alive" : "dead";
     }
 }
