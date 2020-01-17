@@ -189,9 +189,27 @@ app {
 }
 
 .column {
+    outline: solid 1px;
+}
+
+.oneHundred {
+    min-width: 5px;
+    min-height: 5px;
+}
+
+.seventyFive {
+    min-width: 10px;
+    min-height: 10px;
+}
+
+.fifty {
+    min-width: 15px;
+    min-height: 15px;
+}
+
+.twenty {
     min-width: 20px;
     min-height: 20px;
-    outline: solid 1px;
 }
 
 .alive {

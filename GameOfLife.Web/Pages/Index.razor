@@ -2,9 +2,20 @@
 @using GameOfLife
 
 <div class="btn-group" role="group">
-    <button class="btn btn-primary" @onclick="StartWorld">Start</button>
-    <button class="btn btn-primary" @onclick="StopWorld">Stop</button>
-    <button class="btn btn-primary" @onclick="Tick">Generate Next Generation</button>
+    <div class="input-group mb-3">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1" >Grid Size</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Grid Size" @bind="Size">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Speed (FPS)</span>
+        </div>
+        <input type="text" class="form-control" placeholder="FPS" @bind="Speed">
+        <div class="input-group-append">
+            <button class="btn btn-primary" @onclick="StartWorld">Start</button>
+            <button class="btn btn-primary" @onclick="StopWorld">Stop</button>
+        </div>
+    </div>
 </div>
 
 
@@ -12,25 +23,56 @@
     @for (var x = 0; x < GameOfLife.World.GetLength(0); x++)
     {
         <div class="row">
-        @for (var y = 0; y < GameOfLife.World.GetLength(1); y++)
-        {
-            <div class="column @State(x,y)"></div>    
-        }
+            @for (var y = 0; y < GameOfLife.World.GetLength(1); y++)
+            {
+                <div class="column @SizeClass() @State(x, y)"></div>
+            }
         </div>
-    }            
+    }
 </div>
 
 @code
 {
+    private int _speed = 100;
+    private int Speed
+    {
+        get => _speed;
+        set
+        {
+            _speed = value;
+            _speed = _speed > 100 ? 100 : _speed < 1 ? 1 : _speed;
+        }
+    }
+
+    private int _size = 35;
+    private int Size
+    {
+        get => _size;
+        set
+        {
+            _size = value;
+            _size = _size > 100 ? 100 : _size < 4 ? 4 : _size;
+        }
+    }
+    
     private GameOfLife GameOfLife;
     private bool Stop;
-    
+
     protected override async Task OnInitializedAsync()
     {
-        GameOfLife = new GameOfLife(25);
+        GameOfLife = new GameOfLife(Size);
         GameOfLife.RandomSeed(10);
 
         await base.OnInitializedAsync();
+    }
+
+    private string SizeClass()
+    {
+        if (Size > 75) return "oneHundred";
+        if (Size > 50) return "seventyFive";
+        if (Size > 25) return "fifty";
+
+        return "twenty";
     }
 
     private void Tick()
@@ -40,20 +82,22 @@
 
     private void StartWorld()
     {
+        GameOfLife = new GameOfLife(Size);
+        GameOfLife.RandomSeed(10);
+        StateHasChanged();
+        
         Task.Run(
             async () =>
             {
                 Stop = false;
                 while (!Stop)
                 {
-                    await Task.Delay(250);
-            
+                    await Task.Delay(Speed);
+
                     GameOfLife.Tick();
                     StateHasChanged();
-                    System.Console.WriteLine("Ticking for a new generation...");
                 }
             });
-        
     }
 
     private void StopWorld()
