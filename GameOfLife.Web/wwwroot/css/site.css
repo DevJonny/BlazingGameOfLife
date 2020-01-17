@@ -212,6 +212,24 @@ app {
     min-height: 20px;
 }
 
+.black {
+    background-color: black;
+}
+
+.white {
+    background-color: white;
+}
+
+.skull {
+    color: transparent;
+    text-shadow: 0 0 #57628;
+}
+
+.heart {
+    color: transparent;
+    text-shadow: 0 0 #1F49A;
+}
+
 .alive {
     background-color: black;
 }

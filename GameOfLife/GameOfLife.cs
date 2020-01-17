@@ -22,7 +22,7 @@ namespace GameOfLife
             
             for (var x = 0; x < _size; x++)
                 for (var y = 0; y < _size; y++)
-                    World[x, y] = random.Next(100) <= 25;
+                    World[x, y] = random.Next(100) <= percentOfAlive;
         }
 
         public void Seed(bool[,] entries)

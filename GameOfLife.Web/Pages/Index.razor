@@ -11,6 +11,10 @@
             <span class="input-group-text" id="basic-addon1">Speed (FPS)</span>
         </div>
         <input type="text" class="form-control" placeholder="FPS" @bind="Speed">
+        <div class="input-group-prepend">
+            <span class="input-group-text" id="basic-addon1">Seed %</span>
+        </div>
+        <input type="text" class="form-control" placeholder="Seed %" @bind="Seed">
         <div class="input-group-append">
             <button class="btn btn-primary" @onclick="StartWorld">Start</button>
             <button class="btn btn-primary" @onclick="StopWorld">Stop</button>
@@ -54,6 +58,17 @@
             _size = _size > 100 ? 100 : _size < 4 ? 4 : _size;
         }
     }
+
+    private int _seed = 10;
+    private int Seed
+    {
+        get => _seed;
+        set
+        {
+            _seed = value;
+            _seed = _seed > 100 ? 100 : _seed < 1 ? 1 : _seed;
+        }
+    }
     
     private GameOfLife GameOfLife;
     private bool Stop;
@@ -61,7 +76,7 @@
     protected override async Task OnInitializedAsync()
     {
         GameOfLife = new GameOfLife(Size);
-        GameOfLife.RandomSeed(10);
+        GameOfLife.RandomSeed(Seed);
 
         await base.OnInitializedAsync();
     }
@@ -83,7 +98,7 @@
     private void StartWorld()
     {
         GameOfLife = new GameOfLife(Size);
-        GameOfLife.RandomSeed(10);
+        GameOfLife.RandomSeed(Seed);
         StateHasChanged();
         
         Task.Run(
