@@ -105,13 +105,13 @@
             async () =>
             {
                 Stop = false;
-                while (!Stop)
+                do
                 {
                     await Task.Delay(Speed);
 
                     GameOfLife.Tick();
                     StateHasChanged();
-                }
+                } while (!Stop);
             });
     }
 

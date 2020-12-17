@@ -60,15 +60,15 @@ namespace GameOfLife
             
             for (var h = x-1; h <= x+1; h++)
             {
-                if (h < 0 || h >= _size)
+                if (IsOutOfBounds(h))
                     continue;
                 
                 for (var v = y - 1; v <= y + 1; v++)
                 {
-                    if (v < 0 || v >= _size)
+                    if (IsCurrentCell(x, y, h, v))
                         continue;
                     
-                    if (h == x && v == y)
+                    if (IsOutOfBounds(v))
                         continue;
 
                     if (World[h, v])
@@ -78,5 +78,10 @@ namespace GameOfLife
 
             return aliveNeighbours;
         }
+
+        private bool IsCurrentCell(int x, int y, int h, int v) => x == h && y == v;
+
+        private bool IsOutOfBounds(int value) => value < 0 || value >= _size;
+    
     }
 }
