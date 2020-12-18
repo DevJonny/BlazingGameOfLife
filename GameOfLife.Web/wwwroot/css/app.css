@@ -1,0 +1,100 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+}
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+#world {
+    margin-top: 10px;
+}
+
+.column {
+    outline: solid 1px;
+}
+
+.oneHundred {
+    min-width: 5px;
+    min-height: 5px;
+}
+
+.seventyFive {
+    min-width: 10px;
+    min-height: 10px;
+}
+
+.fifty {
+    min-width: 15px;
+    min-height: 15px;
+}
+
+.twenty {
+    min-width: 20px;
+    min-height: 20px;
+}
+
+.black {
+    background-color: black;
+}
+
+.white {
+    background-color: white;
+}
+
+.skull {
+    color: transparent;
+    text-shadow: 0 0 #57628;
+}
+
+.heart {
+    color: transparent;
+    text-shadow: 0 0 #1F49A;
+}
+
+.alive {
+    background-color: black;
+}
