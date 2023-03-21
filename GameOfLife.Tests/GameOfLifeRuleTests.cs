@@ -6,113 +6,104 @@ namespace GameOfLife.Tests
     public class GameOfLifeRuleTests
     {
         [Fact]
-        public void Live_cell_with_less_than_two_dies()
-        {
-            // arrange
-            var gameOfLife = new GameOfLife(5);
-            gameOfLife.Seed(new[,]
-            {
-                { true, true, false, false, true },
-                { false, false, false, false, true },
-                { false, false, false, false, false },
-                { false, false, false, true, false },
-                { false, false, false, false, false}
-            });
-            
-            // act
-            gameOfLife.Tick();
-
-            // assert
-            gameOfLife.World.Should().BeEquivalentTo(new[,]
-            {
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false },
-                { false, false, false, false, false }
-            });
-        }
-        
-        [Fact]
-        public void Live_cell_with_two_lives()
-        {
-            // arrange
-            var gameOfLife = new GameOfLife(2);
-            gameOfLife.Seed(new[,]
-            {
-                { true, false },
-                { true, true }
-            });
-            
-            // act
-            gameOfLife.Tick();
-
-            // assert
-            gameOfLife.World.Should().BeEquivalentTo(new[,]
-            {
-                { true, true },
-                { true, true }
-            });
-        }
-        
-        [Fact]
-        public void Live_cell_with_three_lives()
+        public void Underpopulation()
         {
             // arrange
             var gameOfLife = new GameOfLife(3);
-            gameOfLife.Seed(new[,]
+            gameOfLife.Seed(new [,]
             {
-                { true, false, false },
-                { true, true, false },
-                { true, false, false }
-            });
-            
-            // act
-            gameOfLife.Tick();
-
-            // assert
-            gameOfLife.World.Should().BeEquivalentTo(new[,]
-            {
-                { true, true, false },
-                { true, true, false },
-                { true, true, false }
-            });
-        }
-        
-        [Fact]
-        public void Live_cell_with_more_than_three_dies()
-        {
-            // arrange
-            var gameOfLife = new GameOfLife(3);
-            gameOfLife.Seed(new[,]
-            {
-                { true, true, true },
-                { true, true, true },
-                { true, true, true }
-            });
-
-            // act
-            gameOfLife.Tick();
-
-            // assert
-            gameOfLife.World.Should().BeEquivalentTo(new[,]
-            {
-                { true, false, true },
                 { false, false, false },
-                { true, false, true }
+                { false, true,  false },
+                { false, false, false }
+            });
+            
+            // act
+            gameOfLife.Tick();
+            
+            // assert
+            gameOfLife.World.Should().BeEquivalentTo(new[,]
+            {
+                { false, false, false },
+                { false, false, false },
+                { false, false, false }
             });
         }
-        
+
         [Fact]
-        public void Dead_cell_with_three_becomes_live()
+        public void Two_Neighbours()
         {
             // arrange
             var gameOfLife = new GameOfLife(3);
             gameOfLife.Seed(new[,]
             {
-                { true, true, false },
-                { true, false, false },
-                { false, false, false }
+                { false, true,  false },
+                { true,  false, true  },
+                { false, true,  false }
+            });
+            
+            // act
+            gameOfLife.Tick();
+            
+            // assert
+            gameOfLife.World.Should().BeEquivalentTo(new[,]
+            {
+                { false, true,  false },
+                { true,  false, true  },
+                { false, true,  false }
+            });
+        }
+
+        [Fact]
+        public void Three_Neighbours()
+        {
+            // arrange
+            var gameOfLife = new GameOfLife(3);
+            gameOfLife.Seed(new[,]
+            {
+                { false, false, false },
+                { true,  true,  true  },
+                { false, true,  false }
+            });
+            
+            // act
+            gameOfLife.Tick();
+
+            // assert
+            gameOfLife.World[1, 0].Should().BeTrue();
+            gameOfLife.World[1, 1].Should().BeTrue();
+            gameOfLife.World[1, 2].Should().BeTrue();
+            gameOfLife.World[2, 1].Should().BeTrue();
+        }
+        
+        [Fact]
+        public void Overpopulation()
+        {
+            // arrange
+            var gameOfLife = new GameOfLife(3);
+            gameOfLife.Seed(new[,]
+            {
+                { false, true, false },
+                { true,  true, true  },
+                { false, true, false }
+            });
+
+            // act
+            gameOfLife.Tick();
+
+            // assert
+            gameOfLife.World[1, 1].Should().BeFalse();
+        }
+        
+        [Fact]
+        public void Reproduction()
+        {
+            // arrange
+            var gameOfLife = new GameOfLife(3);
+            gameOfLife.Seed(new[,]
+            {
+                { false, false, false },
+                { true,  true,  true  },
+                { false, true,  false }
             });
 
             // act
@@ -121,9 +112,39 @@ namespace GameOfLife.Tests
             // assert
             gameOfLife.World.Should().BeEquivalentTo(new[,]
             {
-                { true, true, false },
-                { true, true, false },
-                { false, false, false }
+                { false, true, false },
+                { true,  true, true  },
+                { true,  true, true  }
+            });
+        }
+
+        [Fact]
+        public void All_Rules()
+        {
+            // arrange
+            var gameOfLife = new GameOfLife(6);
+            gameOfLife.Seed(new [,]
+            {
+                { false, true,  false, false, false, false },
+                { false, false, false, false, false, false },
+                { false, true,  true,  true,  false, false },
+                { false, false, true,  false, false, false },
+                { false, false, false, false, false, false },
+                { false, false, false, false, false, false }
+            });
+            
+            // act
+            gameOfLife.Tick();
+            
+            // assert
+            gameOfLife.World.Should().BeEquivalentTo(new[,]
+            {
+                { false, false, false, false, false, false },
+                { false, true,  false,  false, false, false },
+                { false, true,  true,  true,  false, false },
+                { false, true,  true,  true,  false, false },
+                { false, false, false, false, false, false },
+                { false, false, false, false, false, false }
             });
         }
     }
