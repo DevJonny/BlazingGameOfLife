@@ -185,12 +185,14 @@ public class GameOfLifeRuleTests
     public static IEnumerable<object[]> ThreeByThree =>
         new List<object[]>
         {
-            new object[] { new GameOfLife2dArray(3) }
+            new object[] { new GameOfLife2dArray(3) },
+            new object[] { new GameOfLifeHashSet(3) }
         };
 
     public static IEnumerable<object[]> SixBySix =>
         new List<object[]>
         {
-            new object[] { new GameOfLife2dArray(6) }
+            new object[] { new GameOfLife2dArray(6) },
+            new object[] { new GameOfLifeHashSet(6) }
         };
 }
