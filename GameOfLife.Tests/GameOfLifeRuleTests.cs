@@ -1,7 +1,3 @@
-using System.Collections.Generic;
-using FluentAssertions;
-using Xunit;
-
 namespace GameOfLife.Tests;
 
 public class GameOfLifeRuleTests

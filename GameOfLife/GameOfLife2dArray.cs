@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace GameOfLife;
+﻿namespace GameOfLife;
 
 public class GameOfLife2dArray : IRunTheGameOfLine
 {

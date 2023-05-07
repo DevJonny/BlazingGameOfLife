@@ -1,7 +1,4 @@
-﻿using CommandLine;
-using Spectre.Console;
-
-Parser.Default.ParseArguments<Options>(args)
+﻿Parser.Default.ParseArguments<Options>(args)
     .WithParsed(o =>
     {
         RunGame(o).Wait();
