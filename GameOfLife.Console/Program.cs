@@ -9,7 +9,7 @@ Parser.Default.ParseArguments<Options>(args)
 
 async Task RunGame(Options options)
 {
-    var gameOfLife = new GameOfLife.GameOfLife(options.Size);
+    var gameOfLife = new GameOfLife.GameOfLife2dArray(options.Size);
     gameOfLife.RandomSeed(options.Seed);
     
     var tickInterval = TimeSpan.FromMilliseconds(1000 / options.Speed);
@@ -23,7 +23,7 @@ async Task RunGame(Options options)
             {
                 for(var x = 0; x < options.Size; x++)
                     for(var y = 0; y < options.Size; y++)
-                        canvas.SetPixel(x, y, gameOfLife.World[x, y] ? Color.Green : Color.Red);
+                        canvas.SetPixel(x, y, gameOfLife.IsAlive((x, y)) ? Color.Green : Color.Red);
                 
                 ctx.Refresh();
 

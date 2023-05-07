@@ -23,10 +23,10 @@
 
 
 <div id="world">
-    @for (var x = 0; x < GameOfLife.World.GetLength(0); x++)
+    @for (var x = 0; x < _gameOfLife2dArray.World.GetLength(0); x++)
     {
         <div class="row">
-            @for (var y = 0; y < GameOfLife.World.GetLength(1); y++)
+            @for (var y = 0; y < _gameOfLife2dArray.World.GetLength(1); y++)
             {
                 <div class="column @SizeClass() @State(x, y)"></div>
             }
@@ -69,13 +69,13 @@
         }
     }
     
-    private GameOfLife GameOfLife;
+    private GameOfLife2dArray _gameOfLife2dArray;
     private bool Stop;
 
     protected override async Task OnInitializedAsync()
     {
-        GameOfLife = new GameOfLife(Size);
-        GameOfLife.RandomSeed(Seed);
+        _gameOfLife2dArray = new GameOfLife2dArray(Size);
+        _gameOfLife2dArray.RandomSeed(Seed);
 
         await base.OnInitializedAsync();
     }
@@ -91,13 +91,13 @@
 
     private void Tick()
     {
-        GameOfLife.Tick();
+        _gameOfLife2dArray.Tick();
     }
 
     private void StartWorld()
     {
-        GameOfLife = new GameOfLife(Size);
-        GameOfLife.RandomSeed(Seed);
+        _gameOfLife2dArray = new GameOfLife2dArray(Size);
+        _gameOfLife2dArray.RandomSeed(Seed);
         StateHasChanged();
         
         Task.Run(
@@ -108,7 +108,7 @@
                 {
                     await Task.Delay(Speed);
 
-                    GameOfLife.Tick();
+                    _gameOfLife2dArray.Tick();
                     StateHasChanged();
                 } while (!Stop);
             });
@@ -121,6 +121,6 @@
 
     private string State(int x, int y)
     {
-        return GameOfLife.World[x, y] ? "alive" : "dead";
+        return _gameOfLife2dArray.World[x, y] ? "alive" : "dead";
     }
 }

@@ -1,20 +1,23 @@
 ﻿using System;
+using System.Linq;
 
 namespace GameOfLife
 {
-    public class GameOfLife
+    public class GameOfLife2dArray : IRunTheGameOfLine
     {
-        public bool[,] World { get; private set; }
+        private bool[,] _world;
 
         private readonly int _size;
         private readonly bool[,] _newWorld;
 
-        public GameOfLife(int size)
+        public GameOfLife2dArray(int size)
         {
-            World = new bool[size, size];
+            _world = new bool[size, size];
             _size = size;
-            _newWorld = World;
+            _newWorld = new bool[size,size];
         }
+
+        public bool IsAlive((int x, int y) cell) => _world[cell.x, cell.y];
 
         public void RandomSeed(int percentOfAlive = 25)
         {
@@ -22,12 +25,14 @@ namespace GameOfLife
             
             for (var x = 0; x < _size; x++)
                 for (var y = 0; y < _size; y++)
-                    World[x, y] = random.Next(100) <= percentOfAlive;
+                    _world[x, y] = random.Next(100) <= percentOfAlive;
         }
 
-        public void Seed(bool[,] entries)
+        public void Seed(params (int x, int y)[] cells)
         {
-            World = entries;
+            for (var x = 0; x < _size; x++)
+                for (var y = 0; y < _size; y++)
+                    _world[x,y] = cells.Contains((x,y));
         }
         
         public void Tick()
@@ -42,16 +47,16 @@ namespace GameOfLife
                         _newWorld[x, y] = false;
                     else if (aliveNeighbours > 3)
                         _newWorld[x, y] = false;
-                    else if (World[x, y] && (aliveNeighbours is 2 || aliveNeighbours is 3))
+                    else if (_world[x, y] && (aliveNeighbours is 2 || aliveNeighbours is 3))
                         _newWorld[x, y] = true;
-                    else if (!World[x, y] && aliveNeighbours is 3)
+                    else if (aliveNeighbours is 3)
                         _newWorld[x, y] = true;
                     else
-                        _newWorld[x, y] = World[x, y];
+                        _newWorld[x, y] = _world[x, y];
                 }
             }
             
-            World = _newWorld;
+            _world = _newWorld;
         }
 
         private int CalculateAliveNeighbours(int x, int y)
@@ -71,7 +76,7 @@ namespace GameOfLife
                     if (IsOutOfBounds(v))
                         continue;
 
-                    if (World[h, v])
+                    if (_world[h, v])
                         aliveNeighbours++;
                 }
             }
