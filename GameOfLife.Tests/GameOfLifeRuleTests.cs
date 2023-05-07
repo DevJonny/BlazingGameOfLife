@@ -7,11 +7,11 @@ public class GameOfLifeRuleTests
          *  - x -
          *  - - -
          */
-    [Fact]
-    public void Underpopulation()
+    [Theory]
+    [MemberData(nameof(ThreeByThree))]
+    public void Underpopulation(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(3);
         gameOfLife.Seed((1, 1));
             
         // act
@@ -29,11 +29,11 @@ public class GameOfLifeRuleTests
          *  x - x
          *  - x -
          */
-    [Fact]
-    public void Two_Neighbours()
+    [Theory]
+    [MemberData(nameof(ThreeByThree))]
+    public void Two_Neighbours(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(3);
         gameOfLife.Seed((0, 1), (1, 0), (1, 2), (2, 1));
             
         // act
@@ -54,11 +54,11 @@ public class GameOfLifeRuleTests
          *  x x x
          *  - x -
          */
-    [Fact]
-    public void Three_Neighbours()
+    [Theory]
+    [MemberData(nameof(ThreeByThree))]
+    public void Three_Neighbours(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(3);
         gameOfLife.Seed((1, 0), (1, 1), (1, 2), (2, 1));
             
         // act
@@ -79,11 +79,11 @@ public class GameOfLifeRuleTests
          *  x x x
          *  - x -
          */
-    [Fact]
-    public void Overpopulation()
+    [Theory]
+    [MemberData(nameof(ThreeByThree))]
+    public void Overpopulation(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(3);
         gameOfLife.Seed((0, 1), (1, 0), (1, 1), (1, 2), (2, 1));
 
         // act
@@ -101,11 +101,11 @@ public class GameOfLifeRuleTests
          *  x x x
          *  - x -
          */
-    [Fact]
-    public void Reproduction()
+    [Theory]
+    [MemberData(nameof(ThreeByThree))]
+    public void Reproduction(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(3);
         gameOfLife.Seed((1, 0), (1, 1), (1, 2), (2, 1));
 
         // act
@@ -127,11 +127,11 @@ public class GameOfLifeRuleTests
          *  - - x - - -
          *  - - - - - -
          */
-    [Fact]
-    public void All_Rules()
+    [Theory]
+    [MemberData(nameof(SixBySix))]
+    public void All_Rules(IRunTheGameOfLife gameOfLife)
     {
         // arrange
-        var gameOfLife = new GameOfLife2dArray(6);
         gameOfLife.Seed((0, 1), (2, 1), (2, 2), (2, 3), (3, 2));
             
         // act
@@ -181,4 +181,16 @@ public class GameOfLifeRuleTests
         gameOfLife.IsAlive((5, 4)).Should().BeFalse();
         gameOfLife.IsAlive((5, 5)).Should().BeFalse();
     }
+
+    public static IEnumerable<object[]> ThreeByThree =>
+        new List<object[]>
+        {
+            new object[] { new GameOfLife2dArray(3) }
+        };
+
+    public static IEnumerable<object[]> SixBySix =>
+        new List<object[]>
+        {
+            new object[] { new GameOfLife2dArray(6) }
+        };
 }
