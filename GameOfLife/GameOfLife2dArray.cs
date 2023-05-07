@@ -2,15 +2,16 @@
 
 public class GameOfLife2dArray : IRunTheGameOfLine
 {
-    private bool[,] _world;
-
-    private readonly int _size;
+    public int Size { get; }
+    
     private readonly bool[,] _newWorld;
+    
+    private bool[,] _world;
 
     public GameOfLife2dArray(int size)
     {
         _world = new bool[size, size];
-        _size = size;
+        Size = size;
         _newWorld = new bool[size,size];
     }
 
@@ -20,23 +21,23 @@ public class GameOfLife2dArray : IRunTheGameOfLine
     {
         var random = new Random();
             
-        for (var x = 0; x < _size; x++)
-        for (var y = 0; y < _size; y++)
+        for (var x = 0; x < Size; x++)
+        for (var y = 0; y < Size; y++)
             _world[x, y] = random.Next(100) <= percentOfAlive;
     }
 
     public void Seed(params (int x, int y)[] cells)
     {
-        for (var x = 0; x < _size; x++)
-        for (var y = 0; y < _size; y++)
+        for (var x = 0; x < Size; x++)
+        for (var y = 0; y < Size; y++)
             _world[x,y] = cells.Contains((x,y));
     }
         
     public void Tick()
     {
-        for (var x = 0; x < _size; x++)
+        for (var x = 0; x < Size; x++)
         {
-            for (var y = 0; y < _size; y++)
+            for (var y = 0; y < Size; y++)
             {
                 var aliveNeighbours = CalculateAliveNeighbours(x, y);
 
@@ -83,6 +84,6 @@ public class GameOfLife2dArray : IRunTheGameOfLine
 
     private bool IsCurrentCell(int x, int y, int h, int v) => x == h && y == v;
 
-    private bool IsOutOfBounds(int value) => value < 0 || value >= _size;
+    private bool IsOutOfBounds(int value) => value < 0 || value >= Size;
     
 }

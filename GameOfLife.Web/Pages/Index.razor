@@ -23,10 +23,10 @@
 
 
 <div id="world">
-    @for (var x = 0; x < _gameOfLife2dArray.World.GetLength(0); x++)
+    @for (var x = 0; x < _gameOfLife2dArray.Size; x++)
     {
         <div class="row">
-            @for (var y = 0; y < _gameOfLife2dArray.World.GetLength(1); y++)
+            @for (var y = 0; y < _gameOfLife2dArray.Size; y++)
             {
                 <div class="column @SizeClass() @State(x, y)"></div>
             }
@@ -121,6 +121,6 @@
 
     private string State(int x, int y)
     {
-        return _gameOfLife2dArray.World[x, y] ? "alive" : "dead";
+        return _gameOfLife2dArray.IsAlive((x, y)) ? "alive" : "dead";
     }
 }
