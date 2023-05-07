@@ -1,6 +1,6 @@
 ﻿namespace GameOfLife;
 
-public class GameOfLife2dArray : IRunTheGameOfLine
+public class GameOfLife2dArray : IRunTheGameOfLife
 {
     public int Size { get; }
     

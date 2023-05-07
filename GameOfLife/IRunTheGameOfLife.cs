@@ -1,6 +1,6 @@
 namespace GameOfLife;
 
-public interface IRunTheGameOfLine
+public interface IRunTheGameOfLife
 {
     bool IsAlive((int x, int y) cell);
     void RandomSeed(int percentOfAlive = 25);
