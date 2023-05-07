@@ -39,13 +39,13 @@ public class GameOfLife2dArray : IRunTheGameOfLife
         {
             for (var y = 0; y < Size; y++)
             {
-                var aliveNeighbours = CalculateAliveNeighbours(x, y);
+                var aliveNeighbours = (x,y).CalculateAliveNeighbours(Size, IsAlive);
 
                 if (aliveNeighbours < 2)
                     _newWorld[x, y] = false;
                 else if (aliveNeighbours > 3)
                     _newWorld[x, y] = false;
-                else if (_world[x, y] && (aliveNeighbours is 2 || aliveNeighbours is 3))
+                else if (_world[x, y] && aliveNeighbours is 2 or 3)
                     _newWorld[x, y] = true;
                 else if (aliveNeighbours is 3)
                     _newWorld[x, y] = true;
@@ -56,34 +56,4 @@ public class GameOfLife2dArray : IRunTheGameOfLife
             
         _world = _newWorld;
     }
-
-    private int CalculateAliveNeighbours(int x, int y)
-    {
-        var aliveNeighbours = 0;
-            
-        for (var h = x-1; h <= x+1; h++)
-        {
-            if (IsOutOfBounds(h))
-                continue;
-                
-            for (var v = y - 1; v <= y + 1; v++)
-            {
-                if (IsCurrentCell(x, y, h, v))
-                    continue;
-                    
-                if (IsOutOfBounds(v))
-                    continue;
-
-                if (_world[h, v])
-                    aliveNeighbours++;
-            }
-        }
-
-        return aliveNeighbours;
-    }
-
-    private bool IsCurrentCell(int x, int y, int h, int v) => x == h && y == v;
-
-    private bool IsOutOfBounds(int value) => value < 0 || value >= Size;
-    
 }
